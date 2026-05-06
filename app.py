@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
 
@@ -22,13 +23,10 @@ def register():
     if request.method == 'POST':
 
         username = request.form['username']
-
         password = request.form['password']
-
         role = request.form['role']
 
         conn = sqlite3.connect('users.db')
-
         cursor = conn.cursor()
 
         cursor.execute(
@@ -37,7 +35,6 @@ def register():
         )
 
         conn.commit()
-
         conn.close()
 
         return redirect('/login')
@@ -51,11 +48,9 @@ def login():
     if request.method == 'POST':
 
         username = request.form['username']
-
         password = request.form['password']
 
         conn = sqlite3.connect('users.db')
-
         cursor = conn.cursor()
 
         cursor.execute(
@@ -70,13 +65,11 @@ def login():
         if user:
 
             session['username'] = username
-
             session['role'] = user[3]
 
             return redirect('/dashboard')
 
         else:
-
             return "Invalid Username or Password"
 
     return render_template('login.html')
@@ -86,7 +79,6 @@ def login():
 def logout():
 
     session.pop('username', None)
-
     session.pop('role', None)
 
     return redirect('/login')
@@ -104,11 +96,9 @@ def create_project():
     if request.method == 'POST':
 
         project_name = request.form['project_name']
-
         created_by = session['username']
 
         conn = sqlite3.connect('users.db')
-
         cursor = conn.cursor()
 
         cursor.execute(
@@ -117,7 +107,6 @@ def create_project():
         )
 
         conn.commit()
-
         conn.close()
 
         return redirect('/dashboard')
@@ -137,13 +126,10 @@ def create_task():
     if request.method == 'POST':
 
         task_name = request.form['task_name']
-
         assigned_to = request.form['assigned_to']
-
         project_id = request.form['project_id']
 
         conn = sqlite3.connect('users.db')
-
         cursor = conn.cursor()
 
         cursor.execute(
@@ -152,7 +138,6 @@ def create_task():
         )
 
         conn.commit()
-
         conn.close()
 
         return redirect('/dashboard')
@@ -167,7 +152,6 @@ def complete_task(id):
         return redirect('/login')
 
     conn = sqlite3.connect('users.db')
-
     cursor = conn.cursor()
 
     cursor.execute(
@@ -176,7 +160,6 @@ def complete_task(id):
     )
 
     conn.commit()
-
     conn.close()
 
     return redirect('/dashboard')
@@ -188,19 +171,15 @@ def dashboard():
     if 'username' in session:
 
         username = session['username']
-
         role = session['role']
 
         conn = sqlite3.connect('users.db')
-
         cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM projects")
-
         projects = cursor.fetchall()
 
         cursor.execute("SELECT * FROM tasks")
-
         tasks = cursor.fetchall()
 
         conn.close()
@@ -217,4 +196,5 @@ def dashboard():
 
 # RUN APP
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
