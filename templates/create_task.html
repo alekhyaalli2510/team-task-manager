@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Create Task</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:linear-gradient(to right,#fc466b,#3f5efb);
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .box{
+            background:white;
+            padding:40px;
+            border-radius:15px;
+            width:350px;
+            text-align:center;
+        }
+
+        input{
+            width:90%;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            border:1px solid #ccc;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:#007bff;
+            color:white;
+            border:none;
+            border-radius:8px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h1>Create Task 🚀</h1>
+
+        <form method="POST">
+
+            <input type="text"
+                   name="task_name"
+                   placeholder="Task Name">
+
+            <input type="text"
+                   name="assigned_to"
+                   placeholder="Assign To">
+
+            <input type="number"
+                   name="project_id"
+                   placeholder="Project ID">
+
+            <button type="submit">
+                Create Task
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

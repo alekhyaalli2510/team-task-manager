@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Dashboard</title>
+
+    <style>
+
+        body{
+            margin:0;
+            padding:0;
+            font-family:Arial;
+            background:linear-gradient(to right,#11998e,#38ef7d);
+        }
+
+        .navbar{
+            background:#222;
+            padding:15px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .navbar h2{
+            color:white;
+            margin:0;
+        }
+
+        .navbar a{
+            color:white;
+            text-decoration:none;
+            margin-left:20px;
+            font-size:18px;
+        }
+
+        .container{
+            padding:40px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+
+        .box{
+            background:white;
+            padding:50px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 5px 15px rgba(0,0,0,0.3);
+            width:500px;
+        }
+
+        .logout-btn{
+            padding:12px 25px;
+            border:none;
+            background:red;
+            color:white;
+            border-radius:8px;
+            cursor:pointer;
+            margin-top:20px;
+        }
+
+        .chat-box{
+            margin-top:30px;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            width:500px;
+            text-align:center;
+            box-shadow:0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .chat-box input{
+            width:80%;
+            padding:12px;
+            border-radius:8px;
+            border:1px solid #ccc;
+        }
+
+        .chat-btn{
+            padding:12px 20px;
+            border:none;
+            background:#007bff;
+            color:white;
+            border-radius:8px;
+            cursor:pointer;
+            margin-top:15px;
+        }
+
+        #response{
+            margin-top:20px;
+            text-align:left;
+            font-size:18px;
+            color:#333;
+        }
+
+        #response p{
+            background:#f4f4f4;
+            padding:10px;
+            border-radius:8px;
+            margin:10px 0;
+        }
+
+        .project-card{
+            background:#f4f4f4;
+            padding:15px;
+            border-radius:10px;
+            margin-top:15px;
+            text-align:left;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <h2>Team Task Manager 🚀</h2>
+
+        <div>
+
+            <a href="/">Home</a>
+
+            <a href="/about">About</a>
+
+            <a href="/create-project">Create Project</a>
+
+            <a href="/create-task">Create Task</a>
+
+            <a href="/logout">Logout</a>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="box">
+
+            <h1>Welcome {{ username }} 🚀</h1>
+
+            <p><b>Role:</b> {{ role }}</p>
+
+            <p>Login Successful</p>
+
+            <a href="/logout">
+                <button class="logout-btn">
+                    Logout
+                </button>
+            </a>
+
+        </div>
+
+        <div class="chat-box">
+
+            <h2>AI Assistant 🤖</h2>
+
+            <input type="text"
+                   id="userInput"
+                   placeholder="Ask something...">
+
+            <br><br>
+
+            <button class="chat-btn"
+                    onclick="sendMessage()">
+
+                Send
+
+            </button>
+
+            <div id="response"></div>
+
+        </div>
+
+        <div class="chat-box">
+
+            <h2>Projects 📁</h2>
+
+            {% for project in projects %}
+
+                <div class="project-card">
+
+                    <p>
+                        <b>Project:</b>
+                        {{ project[1] }}
+                    </p>
+
+                    <p>
+                        <b>Created By:</b>
+                        {{ project[2] }}
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="chat-box">
+
+            <h2>Tasks 📋</h2>
+
+            {% for task in tasks %}
+
+                <div class="project-card">
+
+                    <p>
+                        <b>Task:</b>
+                        {{ task[1] }}
+                    </p>
+
+                    <p>
+                        <b>Assigned To:</b>
+                        {{ task[2] }}
+                    </p>
+
+                    <p>
+                        <b>Status:</b>
+                        {{ task[3] }}
+                    </p>
+
+                    <p>
+                        <b>Project ID:</b>
+                        {{ task[4] }}
+                    </p>
+
+                    {% if task[3] != 'Completed' %}
+
+                        <a href="/complete-task/{{ task[0] }}">
+
+                            <button class="chat-btn">
+
+                                Mark Complete
+
+                            </button>
+
+                        </a>
+
+                    {% else %}
+
+                        <button class="chat-btn"
+                                style="background:green;">
+
+                            Completed ✅
+
+                        </button>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function sendMessage(){
+
+            let input =
+            document.getElementById("userInput");
+
+            let response =
+            document.getElementById("response");
+
+            if(input.value == ""){
+
+                response.innerHTML +=
+                "<p>⚠️ Please enter a message</p>";
+
+            }
+
+            else{
+
+                response.innerHTML +=
+                "<p><b>You:</b> " +
+                input.value + "</p>";
+
+                response.innerHTML +=
+                "<p><b>AI:</b> Hello! You said '" +
+                input.value + "'</p>";
+
+                input.value = "";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
+
